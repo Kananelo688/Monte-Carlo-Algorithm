@@ -1,29 +1,36 @@
-#Makefile defined to automate compilation of the java classes 
-#Author: Kananelo Chabeli
-#Date: 30/07/2023
+# Makefile for compiling and running Java classes with packages
 
-#specify location to Java compiler
-JAVAC= /usr/bin/javac
-#define variables
-BINDIR=bin # directory where the compiled class files will be stored
-SRCDIR=src # directory where source files are
-#rule for making class files
-$(BINDIR)/%.class: $(SRCDIR)/%.java
-  $(JAVAC) -d $(BINDIR) -cp $(BINDIR) $<
+# Define the directories
+SRC_DIR = src
+BIN_DIR = bin
 
-#List of classe files according to thier dependency
-CLASSES= TerrianArea.class Search.class MonteCarloMinimization.class MonteCarloMinimizationParallel.class Runner.class
+# Define the Java compiler
+JAVAC = javac
 
-#link these classes to files in bin directory(compiled code)
-CLASS_FILES= $(CLASSES:%.class=$(BINDIR)/%.class)
-#defualt rule
-build: $(CLASS_FILES)
+# Flags for Java compiler
+JFLAGS = -d $(BIN_DIR) -sourcepath $(SRC_DIR)
 
-run: $(CLASS_FILES)
-  	java -cp $(BINDIR) Runner $(filter-out $@,$(MAKECMDGOALS))
-serial: $(CLASS_FILES)
-  	java -cp $(BINDIR) MonteCarloMinimization $(filter-out $@,$(MAKECMDGOALS))
-parallel: $(CLASS_FILES)
-  	java -cp $(BINDIR) MonteCarloMinimizationParallel $(filter-out $@,$(MAKECMDGOALS))
+# Define the packages
+PACKAGES = MonteCarloMini
+
+# Get all the Java source files recursively
+JAVA_FILES := $(shell find $(SRC_DIR) -name "*.java")
+
+# Convert Java source files to class files
+CLASS_FILES := $(patsubst $(SRC_DIR)/%.java, $(BIN_DIR)/%.class, $(JAVA_FILES))
+
+# Default target to compile all classes
+all: $(CLASS_FILES)
+
+# Target for compiling Java source files to class files
+$(BIN_DIR)/%.class: $(SRC_DIR)/%.java
+	$(JAVAC) $(JFLAGS) $<
+
+# Target for running the MonteCarloMinimization class with command-line inputs
+serial: all
+	java -cp $(BIN_DIR) $(PACKAGES).MonteCarloMinimization $(filter-out $@, $(MAKECMDGOALS))
+
+# Clean target to remove all class files
 clean:
-  rm -rf $(BINDIR)/*.class
+	rm -rf $(BIN_DIR)
+
