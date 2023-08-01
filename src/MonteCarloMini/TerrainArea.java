@@ -3,19 +3,43 @@ package MonteCarloMini;
 import java.lang.Math.*;
 
 import MonteCarloMini.Search.Direction;
+/**
+  TerrainArea represents a space where a terrain is defined, and provides the hard coding of the terrain function. A TerrianArea object is represented by 2-dimensional spatial space with fixed number of rows and columns and minimum and maximum x-and y-coordinate (domain). The object is also searched by <code>MonteCarloMini.Search</code> object.
+*/
 
 public class TerrainArea {
-	
+	/**
+	* Define precisio for each search	
+	*/
 	public static final int PRECISION = 10000;
-
+  /**
+    Specifies the number of rows and columns for <code>this</code> TerrainArea
+  */
 	private int rows, columns; //grid size
+	/**
+	  Specify minimum and maximum values of the x and y coordinates
+	*/
 	private double xmin, xmax, ymin, ymax; //x and y terrain limits
+	/**
+	  A 2-dimensional Array that stores height of terrain at given point in TerrainArea
+	*/
 	private int [][] heights;
+	/**
+	  2-dimensional Array that store the searchId's of each subsequent search at the specific point in TerrainArea
+	*/
 	private int [][] visit;
+	/**
+	  Specifies the number of grid points visited
+	*/
 	private int grid_points_visited;
+	/**
+	  Specifies the number of grid points that were evaluated
+	*/
 	private int grid_points_evaluated;
     
-	
+	/**
+	  Creates a TerrianArea object with specified parameters, and initialises all heights to the  maximum number of searchID's to zero
+	*/
 	public TerrainArea(int rows, int columns, double xmin, double xmax, double ymin, double ymax) {
 		super();
 		this.rows = rows;
@@ -39,14 +63,34 @@ public class TerrainArea {
 	}
 
 	// has this site been visited before?
+	/**
+	  Returns the searcher ID that visited the given coordinate
+	  
+	  @param x x-coordinate of the point  visited
+	  @param y y-coordinate of the point visited
+	  @returns an integer that represents the search ID
+	*/
 	 int visited( int x, int y) {return visit[x][y];}
-	 
-	 void mark_visited(int x, int y, int searcherID) { 
+	 /**
+	  Marks a point visited by adding the give searcher ID in the <code>visit</code> array
+	  
+	  @param x x-coordinate of the point being searched
+	  @param y y-coordinate of the point being searched
+	  @param searcherID the ID of the search that visited the point
+	 */
+	 void mark_visited(int x, int y, int searcherID)
+	 { 
 		 visit[x][y]=searcherID;
-		 grid_points_visited++;}
+		 grid_points_visited++;
+		 }
 	
 	 //evaluate function at a grid point
-	int get_height( int x, int y) {
+	 
+	 /**
+	  Returns the height of terrain at the given point on the grid
+	 */
+	int get_height( int x, int y)
+	{
 		if (heights[x][y]!=Integer.MAX_VALUE) {
 			return heights[x][y]; //don't recalculate if done before
 		}
@@ -70,6 +114,13 @@ public class TerrainArea {
 	}
 
 	//work out where to go next - move downhill
+	/**
+	  Works out the next step to take on the search starting from given coordinates
+	  
+	  @param x x-coordinate of the point where to move from
+	  @param y y-coordinate of point where to move from
+	  @returns a Direction which is the next direction to take
+	*/
 	Direction next_step( int x, int y) {
 		Direction climb_direction =Direction.STAY_HERE;
 		int height;
@@ -104,6 +155,9 @@ public class TerrainArea {
 		}
 		return climb_direction;
 	}
+	/**
+	prints the heights	
+	*/
 	
 	//display the heights in text format
 	void print_heights( ) {
@@ -128,6 +182,9 @@ public class TerrainArea {
 	}
 	
 	//display the "visited" array in test format - this shows who went where
+	/**
+	  displays the "visited" array  in the test format
+	*/
 	void print_visited( ) {
 		int i,j;
 		System.out.printf("Visited:\n");
@@ -145,18 +202,31 @@ public class TerrainArea {
 		for( j=0; j<columns; j++ ) System.out.printf("-------");
 		System.out.printf("+\n\n");
 	}
+	/**
+	  Returns the number of grid points visited
+	  
+	  @return an integer that is the number of grid points visited on this TerrainArea
+	*/
 
 	public int getGrid_points_visited() {
 		return grid_points_visited;
 	}
-
+	/**
+	  Returns the number grip points that were evaluated
+	  
+	  @return an integer which represents the number of grid points that were evaluated
+	*/
 	public int getGrid_points_evaluated() {
 		return grid_points_evaluated;
 	}
-	
+	/**
+	  Returns x-coordinate of the given x-value
+	  @returns x-coordinate visited
+	*/
 	public double getXcoord(int x) {
 		return xmin + ( (xmax - xmin) / rows ) * x;
 	}
+	
 	public double getYcoord(int y) {
 		return ymin + ( (ymax - ymin) / columns ) * y;
 	}

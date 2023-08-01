@@ -11,15 +11,15 @@ import java.util.Random;
 
 class MonteCarloMinimization{
 	static final boolean DEBUG=false;
-	
 	static long startTime = 0;
 	static long endTime = 0;
-
 	//timers - note milliseconds
-	private static void tick(){
+	private static void tick()
+	{
 		startTime = System.currentTimeMillis();
 	}
-	private static void tock(){
+	private static void tock()
+	{
 		endTime=System.currentTimeMillis(); 
 	}
 	
