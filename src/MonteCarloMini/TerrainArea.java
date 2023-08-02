@@ -61,6 +61,16 @@ public class TerrainArea {
 			}
 		}
 	}
+	public void reset(){
+		for(int i=0; i<rows; i++ ) {
+			for( int j=0; j<columns; j++ ) {
+				heights[i][j] = Integer.MAX_VALUE;
+				visit[i][j] = 0;
+			}
+		}
+		grid_points_evaluated=0;
+		grid_points_visited=0;
+	}
 
 	// has this site been visited before?
 	/**
@@ -68,7 +78,7 @@ public class TerrainArea {
 	  
 	  @param x x-coordinate of the point  visited
 	  @param y y-coordinate of the point visited
-	  @returns an integer that represents the search ID
+	  @return an integer that represents the search ID
 	*/
 	 int visited( int x, int y) {return visit[x][y];}
 	 /**
@@ -187,10 +197,10 @@ public class TerrainArea {
 	*/
 	void print_visited( ) {
 		int i,j;
-		System.out.printf("Visited:\n");
-		System.out.printf("+");
+		System.out.print("Visited:\n");
+		System.out.print("+");
 		for( j=0; j<columns; j++ ) System.out.printf("-------");
-		System.out.printf("+\n");
+		System.out.print("+\n");
 		for( i=0; i<rows; i++ ) {
 			System.out.printf("|");
 			for( j=0; j<columns; j++ ) {
@@ -219,10 +229,7 @@ public class TerrainArea {
 	public int getGrid_points_evaluated() {
 		return grid_points_evaluated;
 	}
-	/**
-	  Returns x-coordinate of the given x-value
-	  @returns x-coordinate visited
-	*/
+	
 	public double getXcoord(int x) {
 		return xmin + ( (xmax - xmin) / rows ) * x;
 	}

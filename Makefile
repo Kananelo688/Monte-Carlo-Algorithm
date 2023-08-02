@@ -27,7 +27,7 @@ $(BIN_DIR)/%.class: $(SRC_DIR)/%.java
 	$(JAVAC) $(JFLAGS) $<
 
 # Target for running the MonteCarloMinimization class with command-line inputs
-serial: all
+run: all
 	java -cp $(BIN_DIR) $(PACKAGES).MonteCarloMinimization $(filter-out $@, $(MAKECMDGOALS))
 
 # Clean target to remove all class files
