@@ -34,3 +34,5 @@ run: all
 clean:
 	rm -rf $(BIN_DIR)
 
+get:
+	java -cp $(BIN_DIR) $(PACKAGES).DataCollector

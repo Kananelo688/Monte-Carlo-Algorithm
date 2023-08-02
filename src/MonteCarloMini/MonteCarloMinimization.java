@@ -16,6 +16,7 @@ class MonteCarloMinimization{
 	static long startTime = 0;
 	static long endTime = 0;
 	//timers - note milliseconds
+	static boolean FLAG=true;
 	private static void tick()
 	{
 		startTime = System.currentTimeMillis();
@@ -25,8 +26,15 @@ class MonteCarloMinimization{
 		endTime=System.currentTimeMillis(); 
 	}
 	
-    public static void main(String[] args)  {
-
+    public static void main(String[] args){
+		if(FLAG){
+			//output system details to the console
+			System.out.printf("System properties:\nOS Name:\t%s\nVersion:\t+%s\nArchitecture:\t%s\nProcessors:\t%d\n",
+					System.getProperty("os.name"),System.getProperty("os.version"),
+					System.getProperty("os.arch"),Runtime.getRuntime().availableProcessors());
+			//record the details of the systems where thread is running to a file
+			FLAG=false;
+		}
     	int rows, columns; //grid size
     	double xmin, xmax, ymin, ymax; //x and y terrain limits
     	TerrainArea terrain;  //object to store the heights and grid points visited by searches
@@ -95,6 +103,8 @@ class MonteCarloMinimization{
    		System.out.println("Done.");
 		   long serialTime=endTime-startTime;// time taken by serial algorithm in milliseconds
 		   long parallelTime; // time taken by parallel algorithm in milliseconds
+		//record time to the data file
+		DataCollector.writer.printf("Serial Time: %d ms ",serialTime);
     	if(DEBUG) {
 			System.out.println("Stop timer.");
     		/* print final state */
@@ -102,7 +112,15 @@ class MonteCarloMinimization{
     		terrain.print_visited();
     	}
     	if(args.length>8 && args[8].equalsIgnoreCase("1")){
-			System.out.println("Running parallel algorithm...");
+			System.out.println("Java  Fork/Join Framework 'warming up'...");
+			//run ForkJOin framework several times before actual timing to allow "warming up" of the framework
+			for(int i=0;i<10;i++){
+				ForkJoinPool pool= ForkJoinPool.commonPool();
+				MonteCarloMinimizationParallel original= new MonteCarloMinimizationParallel(searches);
+				pool.invoke(original);
+			}
+			System.out.println("Done.");
+			System.out.println("Running parallel Algorithm...");
 			if(DEBUG) System.out.println("Start timer....");
 			terrain.reset(); // reset the
 			resetTime(); // reset the timer
@@ -114,6 +132,10 @@ class MonteCarloMinimization{
 			if(DEBUG) System.out.println("Stop timer.");
 			System.out.println("Done.");
 			parallelTime=endTime-startTime;
+			//write time to the file
+			DataCollector.writer.printf("Parallel Time: %d ms Sequential Cut_OFF: %d Number of searches: %d\n",
+					parallelTime,
+					MonteCarloMinimizationParallel.SEQUENTIAL_CUTOFF,num_searches);
 			System.out.print("Run parameters:\n");
 			System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
 			System.out.printf("\t x: [%f, %f], y: [%f, %f]\n", xmin, xmax, ymin, ymax );
@@ -125,8 +147,8 @@ class MonteCarloMinimization{
 			tmp=terrain.getGrid_points_evaluated();
 			System.out.printf("Grid points evaluated: %d  (%2.0f%s)\n",tmp,
 					(tmp/(rows*columns*1.0))*100.0, "%");
-			System.out.printf("Global minimum: %.1f at x=%.1f y=%.1f\n\n",
-					result.get(0), result.get(1),result.get(2));
+			System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n\n",
+					Math.round(result.get(0)), result.get(1),result.get(2));
 		}
 		if (!(args.length>8 && args[8].equalsIgnoreCase("1"))){
 			System.out.print("Run parameters:\n");

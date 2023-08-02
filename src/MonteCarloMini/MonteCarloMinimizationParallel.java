@@ -27,7 +27,7 @@ import java.util.ArrayList;
     /**
       Represents the sequential cut-off
     */
-    private static final int SEQUENTIAL_CUTOFF=10000;//value will be changed for experimenting
+    public static int SEQUENTIAL_CUTOFF=10000;//value will be changed for experimenting
     /**
       Starting index on search array where this thread process 
     */
@@ -97,7 +97,7 @@ import java.util.ArrayList;
             searchers[i].reset();//reset the step to that it can be used by parallel Algorithm
             local_min=searchers[i].find_valleys();
             if((!searchers[i].isStopped())&&(local_min<min))
-            { //don't look at  those who stopped because hit exisiting path
+            { //don't look at  those who stopped because hit existing path
                 min=local_min;
                 finder=i; //keep track of who found it
             }
