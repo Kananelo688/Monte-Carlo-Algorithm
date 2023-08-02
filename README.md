@@ -8,6 +8,12 @@ In this project, Monte Carlo algorithm is used to find the lowest point( local m
 ## Method
 To achieve the desired goal with most optimal solution, the program uses probabilistic approach to find the minimum of a fucntion without computing all points in the grid.<br>
 At first, a starting point on the grid is chosen at random, and the fucntion is computed at that point. Next, the fucntion is evuluated for few  a nightbouring point( determined by the desired search density), and the te search goes to the point with the minimum value,and then conotinues the process again until to more minimum values can be found, at which the final minimum value is returned.<b>
-The flow chat of the algorithm is shown in the figure below.
+
+## Software required
+1.JVM
+install instructions:<br>
+    Linux: open terminal and type following commands:<br>
+    sudo apt update && upgrade
+    sudo apt install default-jre 
 ## How to run the program
 // TO DO
