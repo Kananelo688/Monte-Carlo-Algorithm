@@ -22,7 +22,7 @@ public final class DataCollector {
 
     static {
         try {
-            writer = new PrintWriter(new FileOutputStream("data/data.txt"));
+            writer = new PrintWriter(new FileOutputStream("data/data.txt",true));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -1,0 +1,82 @@
+System properties:
+OS Name:	Linux
+Version:	+6.2.0-26-generic
+Architecture:	amd64
+Processors:	4
+******************Results with sequential cut-off of 100 ******************************
+Serial Time: 1342 ms Parallel Time: 876 ms Sequential Cut_OFF: 100 Number of searches: 500000
+Serial Time: 6338 ms Parallel Time: 5369 ms Sequential Cut_OFF: 100 Number of searches: 1600000
+Serial Time: 2724 ms Parallel Time: 1158 ms Sequential Cut_OFF: 100 Number of searches: 1200000
+Serial Time: 3465 ms Parallel Time: 1884 ms Sequential Cut_OFF: 100 Number of searches: 1400000
+Serial Time: 1778 ms Parallel Time: 992 ms Sequential Cut_OFF: 100 Number of searches: 900000
+Serial Time: 2887 ms Parallel Time: 1603 ms Sequential Cut_OFF: 100 Number of searches: 1300000
+Serial Time: 4409 ms Parallel Time: 1971 ms Sequential Cut_OFF: 100 Number of searches: 1625000
+Serial Time: 15448 ms Parallel Time: 6611 ms Sequential Cut_OFF: 100 Number of searches: 5400000
+Serial Time: 9924 ms Parallel Time: 4526 ms Sequential Cut_OFF: 100 Number of searches: 4200000
+Serial Time: 3115 ms Parallel Time: 1449 ms Sequential Cut_OFF: 100 Number of searches: 1250000
+******************Results with sequential cut-off of 500 ******************************
+Serial Time: 1249 ms Parallel Time: 812 ms Sequential Cut_OFF: 500 Number of searches: 650000
+Serial Time: 3703 ms Parallel Time: 1418 ms Sequential Cut_OFF: 500 Number of searches: 2250000
+Serial Time: 1329 ms Parallel Time: 654 ms Sequential Cut_OFF: 500 Number of searches: 550000
+Serial Time: 7634 ms Parallel Time: 3003 ms Sequential Cut_OFF: 500 Number of searches: 3000000
+Serial Time: 5406 ms Parallel Time: 2620 ms Sequential Cut_OFF: 500 Number of searches: 1200000
+Serial Time: 12431 ms Parallel Time: 5288 ms Sequential Cut_OFF: 500 Number of searches: 4225000
+Serial Time: 8667 ms Parallel Time: 3227 ms Sequential Cut_OFF: 500 Number of searches: 4800000
+Serial Time: 5777 ms Parallel Time: 2712 ms Sequential Cut_OFF: 500 Number of searches: 1400000
+Serial Time: 7678 ms Parallel Time: 4071 ms Sequential Cut_OFF: 500 Number of searches: 2750000
+Serial Time: 9475 ms Parallel Time: 3617 ms Sequential Cut_OFF: 500 Number of searches: 3600000
+******************Results with sequential cut-off of 1000 ******************************
+Serial Time: 3204 ms Parallel Time: 1402 ms Sequential Cut_OFF: 1000 Number of searches: 1300000
+Serial Time: 2282 ms Parallel Time: 835 ms Sequential Cut_OFF: 1000 Number of searches: 1500000
+Serial Time: 3472 ms Parallel Time: 1540 ms Sequential Cut_OFF: 1000 Number of searches: 1500000
+Serial Time: 27277 ms Parallel Time: 11162 ms Sequential Cut_OFF: 1000 Number of searches: 8100000
+Serial Time: 3421 ms Parallel Time: 1587 ms Sequential Cut_OFF: 1000 Number of searches: 1375000
+Serial Time: 3849 ms Parallel Time: 1572 ms Sequential Cut_OFF: 1000 Number of searches: 1625000
+Serial Time: 3151 ms Parallel Time: 1496 ms Sequential Cut_OFF: 1000 Number of searches: 1375000
+Serial Time: 1641 ms Parallel Time: 821 ms Sequential Cut_OFF: 1000 Number of searches: 700000
+Serial Time: 1338 ms Parallel Time: 581 ms Sequential Cut_OFF: 1000 Number of searches: 550000
+Serial Time: 3855 ms Parallel Time: 1690 ms Sequential Cut_OFF: 1000 Number of searches: 1400000
+******************Results with sequential cut-off of 1500 ******************************
+Serial Time: 4337 ms Parallel Time: 2015 ms Sequential Cut_OFF: 1500 Number of searches: 1375000
+Serial Time: 2381 ms Parallel Time: 1124 ms Sequential Cut_OFF: 1500 Number of searches: 900000
+Serial Time: 10229 ms Parallel Time: 4629 ms Sequential Cut_OFF: 1500 Number of searches: 3000000
+Serial Time: 9075 ms Parallel Time: 4157 ms Sequential Cut_OFF: 1500 Number of searches: 3500000
+Serial Time: 11965 ms Parallel Time: 5234 ms Sequential Cut_OFF: 1500 Number of searches: 5200000
+Serial Time: 3039 ms Parallel Time: 1564 ms Sequential Cut_OFF: 1500 Number of searches: 1750000
+Serial Time: 1426 ms Parallel Time: 632 ms Sequential Cut_OFF: 1500 Number of searches: 700000
+Serial Time: 2842 ms Parallel Time: 1331 ms Sequential Cut_OFF: 1500 Number of searches: 1625000
+Serial Time: 3313 ms Parallel Time: 1543 ms Sequential Cut_OFF: 1500 Number of searches: 1750000
+Serial Time: 9691 ms Parallel Time: 4812 ms Sequential Cut_OFF: 1500 Number of searches: 4500000
+******************Results with sequential cut-off of 2000 ******************************
+Serial Time: 21829 ms Parallel Time: 10712 ms Sequential Cut_OFF: 2000 Number of searches: 7200000
+Serial Time: 3647 ms Parallel Time: 1783 ms Sequential Cut_OFF: 2000 Number of searches: 1800000
+Serial Time: 2721 ms Parallel Time: 1558 ms Sequential Cut_OFF: 2000 Number of searches: 1400000
+Serial Time: 302 ms Parallel Time: 154 ms Sequential Cut_OFF: 2000 Number of searches: 200000
+Serial Time: 598 ms Parallel Time: 320 ms Sequential Cut_OFF: 2000 Number of searches: 400000
+Serial Time: 12209 ms Parallel Time: 6997 ms Sequential Cut_OFF: 2000 Number of searches: 5200000
+Serial Time: 3942 ms Parallel Time: 1591 ms Sequential Cut_OFF: 2000 Number of searches: 1750000
+Serial Time: 357 ms Parallel Time: 219 ms Sequential Cut_OFF: 2000 Number of searches: 250000
+Serial Time: 1280 ms Parallel Time: 708 ms Sequential Cut_OFF: 2000 Number of searches: 650000
+Serial Time: 2314 ms Parallel Time: 1167 ms Sequential Cut_OFF: 2000 Number of searches: 1100000
+******************Results with sequential cut-off of 4000 ******************************
+Serial Time: 2991 ms Parallel Time: 1787 ms Sequential Cut_OFF: 4000 Number of searches: 1400000
+Serial Time: 8819 ms Parallel Time: 6185 ms Sequential Cut_OFF: 4000 Number of searches: 4000000
+Serial Time: 1282 ms Parallel Time: 626 ms Sequential Cut_OFF: 4000 Number of searches: 600000
+Serial Time: 3787 ms Parallel Time: 2111 ms Sequential Cut_OFF: 4000 Number of searches: 1250000
+Serial Time: 5830 ms Parallel Time: 3443 ms Sequential Cut_OFF: 4000 Number of searches: 2000000
+Serial Time: 3393 ms Parallel Time: 1668 ms Sequential Cut_OFF: 4000 Number of searches: 1375000
+Serial Time: 2993 ms Parallel Time: 1612 ms Sequential Cut_OFF: 4000 Number of searches: 600000
+Serial Time: 8055 ms Parallel Time: 4421 ms Sequential Cut_OFF: 4000 Number of searches: 4200000
+Serial Time: 1509 ms Parallel Time: 1526 ms Sequential Cut_OFF: 4000 Number of searches: 1000000
+Serial Time: 8740 ms Parallel Time: 4308 ms Sequential Cut_OFF: 4000 Number of searches: 4950000
+******************Results with sequential cut-off of 5000 ******************************
+Serial Time: 7437 ms Parallel Time: 3117 ms Sequential Cut_OFF: 5000 Number of searches: 3000000
+Serial Time: 4924 ms Parallel Time: 2636 ms Sequential Cut_OFF: 5000 Number of searches: 2750000
+Serial Time: 2226 ms Parallel Time: 1068 ms Sequential Cut_OFF: 5000 Number of searches: 1600000
+Serial Time: 7232 ms Parallel Time: 3434 ms Sequential Cut_OFF: 5000 Number of searches: 3300000
+Serial Time: 10754 ms Parallel Time: 5926 ms Sequential Cut_OFF: 5000 Number of searches: 5850000
+Serial Time: 14054 ms Parallel Time: 3054 ms Sequential Cut_OFF: 5000 Number of searches: 5850000
+Serial Time: 1853 ms Parallel Time: 886 ms Sequential Cut_OFF: 5000 Number of searches: 1600000
+Serial Time: 3790 ms Parallel Time: 1639 ms Sequential Cut_OFF: 5000 Number of searches: 3300000
+Serial Time: 1725 ms Parallel Time: 762 ms Sequential Cut_OFF: 5000 Number of searches: 2500000
+Serial Time: 2550 ms Parallel Time: 961 ms Sequential Cut_OFF: 5000 Number of searches: 3025000
