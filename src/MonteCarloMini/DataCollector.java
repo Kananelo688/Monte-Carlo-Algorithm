@@ -1,8 +1,6 @@
 package MonteCarloMini;
-
 import java.io.*;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  *A DataCollector object is an object that is generally designed to collect data the experiment using system
@@ -12,62 +10,96 @@ import java.util.Scanner;
  *
  * */
 public final class DataCollector {
-    private static final int[] cutOffs={100,500,1000,1500,2000,4000,5000};//sequential cut-offs
+    /**
+     * Specify values that will be used to benchmark the algorithms for speedup against grid-size, for fixed search density and sequential cut-off
+     * */
+    private static  final int[] grows={100,500,1000,1500,2000,3000,4000,5000,6000,7000,8000,9000};
+    /**
+     * Specify values fo search densities that will be used to benchmark the algorithms for  different search densities for fixed
+     * grid-size and sequential cut-off;
+     * */
 
 
-    private static final int[] rows={1000,2000,2500,5000,6000,7000,8000,5500,6500,9000};
-    private static final double DEFAULT_SEARCH_DENSITY=0.1; // default search density for experimental purposes
+    private static final double  [] densities={0.01,0.02,0.03,0.05,0.1,0.2,0.3,0.4,0.5,1,2,3,4,5,6};
+    /**
+     *
+     * Specify values for sequential cut-offs to benchmark algorithms against sequential cut-offs. Parallel algorithms are highly
+     * depended on the sequential cut-off
+     * */
+    private static final int [] cut_offs={1,10,100,1000,1500,1000,2000,3000,5000,6000,7000,8000};
+    /**
+     * Specify default sequential cut-off
+     * */
+    private static final double DEFAULT_CUT_OFF=100;
+     /**
+      * Specify default rows and columns (to make grid size of at most 800 000, to gather for density of 6,
+      * which will give large number of searches (avoid heap overflow)
+      * */
+     private static final int DEFAULT_ROWS=4000,DEFAULT_COLS=200;
+     /**
+      * Default search density
+      * */
+     private static final double DEFAULT_DENSITY=0.1;
 
-    public static final PrintWriter writer;
+     public  static PrintWriter DENSITY;
+    public  static PrintWriter GRID_SIZE;
+    public  static PrintWriter CUT_OFFS;
+    public static boolean DensityBenchMark=false;
+    public static boolean CutoffBenchMark=false;
+    public static boolean gridBenchMark=false;
+     /**
+      * Invokes main method of the MonteMinimization class and passes appropriate arguments for benchmarking
+      * **/
 
-    static {
-        try {
-            writer = new PrintWriter(new FileOutputStream("data/data.txt",true));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    private static Random random=new Random();
-
-    private static int[] starts={-1000,-500,0,500,500,9000,7000,0,5000,2500};
-
-    public static void main(String[] args){
-        DataCollector.writer.printf("System properties:\nOS Name:\t%s\nVersion:\t+%s\nArchitecture:\t%s\nProcessors:\t%d\n",
-                System.getProperty("os.name"),System.getProperty("os.version"),
-                System.getProperty("os.arch"),Runtime.getRuntime().availableProcessors());
-        for(int i=0;i< cutOffs.length;i++){
-            System.out.printf("Experimenting with sequential cut-off of %d...\n",cutOffs[i]);
-            MonteCarloMinimizationParallel.SEQUENTIAL_CUTOFF=cutOffs[i];
-            writer.printf("******************Results with sequential cut-off of %d ******************************\n",
-                    MonteCarloMinimizationParallel.SEQUENTIAL_CUTOFF);
-            for(int j=0;j<rows.length;j++){
-                //obtain number of rows and columns randomly from the rows array
-                int rowsNum=rows[random.nextInt(rows.length)], colNum=rows[random.nextInt(rows.length)];
-                int xStart=starts[random.nextInt(rows.length)],
-                        yStart=(starts[random.nextInt(rows.length)]),
-                        xEnd=starts[random.nextInt(rows.length)],
-                        yEnd=starts[random.nextInt(rows.length)];
-                //check if xStart is actually less than xEnd
-                if(xStart>xEnd){
-                    int temp=xStart;
-                    xStart=xEnd;
-                    xEnd=temp;
-                }
-                if(yStart>yEnd){
-                    int temp=yStart;
-                    yStart=yEnd;
-                    yEnd=temp;
-                }
-                String[] arguments= {String.valueOf(rowsNum),
-                        String.valueOf(colNum),String.valueOf(xStart),String.valueOf(xEnd),
-                        String.valueOf(yStart),String.valueOf(yEnd),
-                        String.valueOf(DEFAULT_SEARCH_DENSITY),"0","1"};
-                MonteCarloMinimization.main(arguments);
-            }
-        }
-        //close the file after writing to it
-        writer.close();
-
-
-    }
+     public static void main(String[] args) throws FileNotFoundException {
+         System.out.println("Collecting data...");
+         //Collecting data for speedup against grid-sze for fixed search density and sequential cuf-off
+         System.out.println("Benchmarking  against search densities...");
+         for(int i=0;i< densities.length;i++){
+             DensityBenchMark=true;
+             String filename="data/Search_density_data_"+Runtime.getRuntime().availableProcessors()+"Core.txt";
+             if(DENSITY==null){
+                 DENSITY=new PrintWriter(new FileOutputStream(filename));
+             }
+             String[] argum={String.valueOf(DEFAULT_ROWS),String.valueOf(DEFAULT_COLS),"-2000","2000","-100","100",
+                     String.valueOf(densities[i]),"0","1"};
+             DENSITY.print(densities[i]+" ");
+             MonteCarloMinimization.main(argum);
+         }
+         DENSITY.close();
+         System.out.println("Done.");
+         System.out.println("BenchMarking for speedup against grid-size, for fixed search density and sequential cut-off....");
+         Random rand=new Random();
+         for(int i=0;i< grows.length;i++){
+             DensityBenchMark=false;gridBenchMark=true;
+             String filename="data/Grid_Size_data_"+Runtime.getRuntime().availableProcessors()+"Core.txt";
+             if(GRID_SIZE==null){
+                 GRID_SIZE=new PrintWriter(new FileOutputStream(filename));
+             }
+             int rows=grows[rand.nextInt(grows.length)], cols=grows[rand.nextInt(grows.length)];
+             String[] argum={String.valueOf(rows),String.valueOf(cols),
+                     "-2000","2000","-100","100",
+                     String.valueOf(DEFAULT_DENSITY),"0","1"};
+             GRID_SIZE.print(rows*cols+" ");
+             MonteCarloMinimization.main(argum);
+         }
+         GRID_SIZE.close();
+         System.out.println("Benchmarking for speedup against sequential cut-offs....");
+         for(int i=0;i< cut_offs.length;i++){
+             DensityBenchMark=false;gridBenchMark=false;CutoffBenchMark=true;
+             String filename="data/cutoff_data_"+Runtime.getRuntime().availableProcessors()+"Core.txt";
+             if(CUT_OFFS==null){
+                 CUT_OFFS=new PrintWriter(new FileOutputStream(filename));
+             }
+             int rows=grows[rand.nextInt(grows.length)], cols=grows[rand.nextInt(grows.length)];
+             String[] argum={String.valueOf(DEFAULT_ROWS),String.valueOf(DEFAULT_COLS),
+                     "-2000","2000","-100","100",
+                     String.valueOf(10),"0","1"};
+             CUT_OFFS.print(cut_offs[i]+" ");
+             MonteCarloMinimizationParallel.SEQUENTIAL_CUTOFF=cut_offs[i];
+             MonteCarloMinimization.main(argum);
+         }
+         CUT_OFFS.close();
+         System.out.println("BenchMarking completed....");
+     }
 }

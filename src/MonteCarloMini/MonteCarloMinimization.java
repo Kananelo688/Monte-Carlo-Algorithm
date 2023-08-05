@@ -47,7 +47,8 @@ class MonteCarloMinimization{
     	if (args.length<7) {
     		System.out.println("Incorrect number of command line arguments provided.");   	
     		System.exit(0);
-    	}else if(args.length>7 && args[7].equalsIgnoreCase("1"))
+    	}
+		else if(args.length>7 && args[7].equalsIgnoreCase("1"))
 		{
 			DEBUG=true;
 		}
@@ -102,9 +103,8 @@ class MonteCarloMinimization{
    		tock();
    		System.out.println("Done.");
 		   long serialTime=endTime-startTime;// time taken by serial algorithm in milliseconds
-		   long parallelTime; // time taken by parallel algorithm in milliseconds
+		   long parallelTime = 1; // time taken by parallel algorithm in milliseconds(initialised to 1)
 		//record time to the data file
-		DataCollector.writer.printf("Serial Time: %d ms ",serialTime);
     	if(DEBUG) {
 			System.out.println("Stop timer.");
     		/* print final state */
@@ -132,10 +132,6 @@ class MonteCarloMinimization{
 			if(DEBUG) System.out.println("Stop timer.");
 			System.out.println("Done.");
 			parallelTime=endTime-startTime;
-			//write time to the file
-			DataCollector.writer.printf("Parallel Time: %d ms Sequential Cut_OFF: %d Number of searches: %d\n",
-					parallelTime,
-					MonteCarloMinimizationParallel.SEQUENTIAL_CUTOFF,num_searches);
 			System.out.print("Run parameters:\n");
 			System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
 			System.out.printf("\t x: [%f, %f], y: [%f, %f]\n", xmin, xmax, ymin, ymax );
@@ -147,7 +143,7 @@ class MonteCarloMinimization{
 			tmp=terrain.getGrid_points_evaluated();
 			System.out.printf("Grid points evaluated: %d  (%2.0f%s)\n",tmp,
 					(tmp/(rows*columns*1.0))*100.0, "%");
-			System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n\n",
+			System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n",
 					Math.round(result.get(0)), result.get(1),result.get(2));
 		}
 		if (!(args.length>8 && args[8].equalsIgnoreCase("1"))){
@@ -166,9 +162,22 @@ class MonteCarloMinimization{
 		System.out.printf("Grid points evaluated: %d  (%2.0f%s)\n",tmp,(tmp/(rows*columns*1.0))*100.0, "%");
 	
 		/* Results*/
-		System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n\n",
+		System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n",
 				min, terrain.getXcoord(searches[finder].getPos_row()),
 				terrain.getYcoord(searches[finder].getPos_col()) );
+		if(DataCollector.DensityBenchMark){
+			System.out.println("Recording search density benchmark data....");
+			DataCollector.DENSITY.printf("%.3f\n",(double) serialTime/parallelTime);
+		}
+		if(DataCollector.gridBenchMark){
+
+			System.out.println("Recording grid size benchmark data....");
+			DataCollector.GRID_SIZE.printf("%.3f\n",(double) serialTime/parallelTime);
+		}
+		if(DataCollector.CutoffBenchMark){
+			System.out.println("Recording Cut-off benchmark data....");
+			DataCollector.CUT_OFFS.printf("%.3f\n",(double) serialTime/parallelTime);
+		}
     }
 	private static void resetTime()
 	{

@@ -1,5 +1,5 @@
 # Makefile for compiling and running Java classes with packages
-
+#Author: Kananelo Chabeli
 # Define the directories
 SRC_DIR = src
 BIN_DIR = bin
@@ -35,4 +35,4 @@ clean:
 	rm -rf $(BIN_DIR)
 
 get:
-	java -cp $(BIN_DIR) $(PACKAGES).DataCollector
+	java -cp $(BIN_DIR) $(PACKAGES).DataCollector $(filter-out $@, $(MAKECMDGOALS))
