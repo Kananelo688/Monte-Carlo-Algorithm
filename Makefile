@@ -36,3 +36,5 @@ clean:
 
 get:
 	java -cp $(BIN_DIR) $(PACKAGES).DataCollector $(filter-out $@, $(MAKECMDGOALS))
+plot:
+	python3 plot.py
