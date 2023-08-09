@@ -74,7 +74,7 @@ public final class DataCollector {
          System.out.println("Benchmarking  against search densities...");
          for(int i=0;i< densities.length;i++){
              DensityBenchMark=true;
-             String filename="data/Search_density_data_"+Runtime.getRuntime().availableProcessors()+"Core.txt";
+             String filename="data/density_data_"+System.getProperty("user.name")+".txt";
              if(DENSITY==null){
                  DENSITY=new PrintWriter(new FileOutputStream(filename));
              }
@@ -89,7 +89,7 @@ public final class DataCollector {
          Random rand=new Random();
          for(int i=0;i< grows.length;i++){
              DensityBenchMark=false;gridBenchMark=true;
-             String filename="data/Grid_Size_data_"+Runtime.getRuntime().availableProcessors()+"Core.txt";
+             String filename="data/gridsize_data"+System.getProperty("user.name")+".txt";
              if(GRID_SIZE==null){
                  GRID_SIZE=new PrintWriter(new FileOutputStream(filename));
              }
@@ -104,7 +104,7 @@ public final class DataCollector {
          System.out.println("Benchmarking for speedup against sequential cut-offs....");
          for(int i=0;i< cut_offs.length;i++){
              DensityBenchMark=false;gridBenchMark=false;CutoffBenchMark=true;
-             String filename="data/cutoff_data_"+Runtime.getRuntime().availableProcessors()+"Core.txt";
+             String filename="data/sequential_cut_off"+System.getProperty("user.name")+"txt";
              if(CUT_OFFS==null){
                  CUT_OFFS=new PrintWriter(new FileOutputStream(filename));
              }
