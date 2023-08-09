@@ -7,7 +7,11 @@ package MonteCarloMini;
  * EduHPC'22 Peachy Assignment" 
  * developed by Arturo Gonzalez Escribano  (Universidad de Valladolid 2021/2022)
  */
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;
 
@@ -59,7 +63,10 @@ class MonteCarloMinimization{
 	 * */
 	
     public static void main(String[] args){
-		if(FLAG){
+		final DecimalFormat decimalFormat=
+				new DecimalFormat("0.000",new DecimalFormatSymbols(Locale.CANADA));
+		if(FLAG)
+		{
 			//output system details to the console
 			System.out.printf("System properties:\nOS Name:\t%s\nVersion:\t+%s\nArchitecture:\t%s\nProcessors:\t%d\n",
 					System.getProperty("os.name"),System.getProperty("os.version"),
@@ -115,15 +122,15 @@ class MonteCarloMinimization{
     		/* Print initial values */
     		System.out.printf("Done.\nNumber searches: %d\n", num_searches);
     		terrain.print_heights();
-    	}System.out.println("Running serial algorithm...");
-    	if(DEBUG) System.out.println("Start timing...");
-    	//start timer
+    	}
+		  System.out.println("Running serial algorithm...");
+    	    	//start timer
     	tick();
-    	
     	//all searches
     	int min=Integer.MAX_VALUE;
     	int local_min=Integer.MAX_VALUE;
     	int finder =-1;
+		/*
     	for  (int i=0;i<num_searches;i++) {
     		local_min=searches[i].find_valleys();
     		if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
@@ -132,22 +139,56 @@ class MonteCarloMinimization{
     		}
     		if(DEBUG) System.out.println("Search "+searches[i].getID()+" finished at  "+local_min + " in " +searches[i].getSteps());
     	}
-   		//end timer
    		tock();
+		//Uncomment this block of code to run serial algorithm 10 time to get best time
+		*/
+		long[] serialTimes=new long[15];
+		System.out.println("Starting timing...");
+		for(int w=0;w<serialTimes.length;w++)
+		{
+			resetTime();
+			tick();
+			terrain.reset();
+			for  (int i=0;i<num_searches;i++) {
+				local_min=searches[i].find_valleys();
+				if((!searches[i].isStopped())&&(local_min<min)) { //don't look at  those who stopped because hit exisiting path
+					min=local_min;
+					finder=i; //keep track of who found it
+				}
+				if(DEBUG) System.out.println("Search "+searches[i].getID()+" finished at  "+local_min + " in " +searches[i].getSteps());
+			}
+			tock();
+		//	System.out.printf("Serial time for %dth execution %d:\n",w+1,endTime-startTime);
+			serialTimes[w]=endTime-startTime;
+			//reset all the searches before next iteration
+			for(Search search:searches){
+				search.reset();
+			}
+		}
    		System.out.println("Done.");
-		   long serialTime=endTime-startTime;// time taken by serial algorithm in milliseconds
-		   long parallelTime = 1; // time taken by parallel algorithm in milliseconds(initialised to 1)
+		System.out.println("Preparing best timing...");
+		Arrays.sort(serialTimes);
+		long temp=0;
+		for(int y=0;y<10;y++){
+			temp+=serialTimes[y];
+		}
+		long serialTime=temp/10;
+		   //long serialTime=endTime-startTime;// time taken by serial algorithm in milliseconds
+		long parallelTime = 1; // time taken by parallel algorithm in milliseconds(initialised to 1)
 		//record time to the data file
-    	if(DEBUG) {
+    	if(DEBUG)
+		{
 			System.out.println("Stop timer.");
     		/* print final state */
     		terrain.print_heights();
     		terrain.print_visited();
     	}
-    	if(args.length>8 && args[8].equalsIgnoreCase("1")){
-			System.out.println("Java  Fork/Join Framework 'warming up'...");
+    	if(args.length>8 && args[8].equalsIgnoreCase("1"))
+		{
+			/*System.out.println("Java  Fork/Join Framework 'warming up'...");
 			//run ForkJOin framework several times before actual timing to allow "warming up" of the framework
-			for(int i=0;i<10;i++){
+			for(int i=0;i<10;i++)
+			{
 				ForkJoinPool pool= ForkJoinPool.commonPool();
 				MonteCarloMinimizationParallel original= new MonteCarloMinimizationParallel(searches);
 				pool.invoke(original);
@@ -155,16 +196,52 @@ class MonteCarloMinimization{
 			System.out.println("Done.");
 			System.out.println("Running parallel Algorithm...");
 			if(DEBUG) System.out.println("Start timer....");
-			terrain.reset(); // reset the
+			/*terrain.reset(); // reset the
 			resetTime(); // reset the timer
 			tick();
 			ForkJoinPool pool= ForkJoinPool.commonPool();
 			MonteCarloMinimizationParallel original= new MonteCarloMinimizationParallel(searches);
 			ArrayList<Double> result= pool.invoke(original);
-			tock();
+			tock();*/
+			///##################################################
+			System.out.println("Running parallel Algorithm...");
+			System.out.println("Started timing....");
+			long[] parallelTimes=new long[15];
+
+			ArrayList<Double> result=new ArrayList<>();
+			//MonteCarloMinimizationParallel original= new MonteCarloMinimizationParallel(searches);
+			//MonteCarloMinimizationParallel original= new MonteCarloMinimizationParallel(searches);
+			//ForkJoinPool pool= ForkJoinPool.commonPool();
+			for(int y=0;y<parallelTimes.length;y++)
+			{
+				terrain.reset(); // reset the
+				resetTime(); // reset the timer
+				tick();
+				MonteCarloMinimizationParallel original= new MonteCarloMinimizationParallel(searches);
+				ForkJoinPool pool= ForkJoinPool.commonPool();
+				//System.out.println("Start time: "+startTime);
+				result=pool.invoke(original);
+
+				tock();
+				//System.out.println("End time: "+endTime);
+				//System.out.printf("Parallel time for %dth execution %d:\n",y,endTime-startTime);
+				parallelTimes[y]=endTime-startTime;
+			}
+			System.out.println("Stopped timing....");
+			temp=0;
+			System.out.println("Preparing best timing...");
+			Arrays.sort(parallelTimes);
+			//System.out.println("Parallel Times="+Arrays.toString(parallelTimes));
+			for(int x=0;x<10;x++)
+			{
+				temp+=parallelTimes[x];
+			}
+			//System.out.println("Temp="+temp);
+			parallelTime=temp/10;
+
 			if(DEBUG) System.out.println("Stop timer.");
 			System.out.println("Done.");
-			parallelTime=endTime-startTime;
+			//parallelTime=temp/10;
 			System.out.print("Run parameters:\n");
 			System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
 			System.out.printf("\t x: [%f, %f], y: [%f, %f]\n", xmin, xmax, ymin, ymax );
@@ -179,7 +256,8 @@ class MonteCarloMinimization{
 			System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n",
 					Math.round(result.get(0)), result.get(1),result.get(2));
 		}
-		if (!(args.length>8 && args[8].equalsIgnoreCase("1"))){
+		if (!(args.length>8 && args[8].equalsIgnoreCase("1")))
+		{
 			System.out.print("Run parameters:\n");
 			System.out.printf("\t Rows: %d, Columns: %d\n", rows, columns);
 			System.out.printf("\t x: [%f, %f], y: [%f, %f]\n", xmin, xmax, ymin, ymax );
@@ -198,18 +276,21 @@ class MonteCarloMinimization{
 		System.out.printf("Global minimum: %d at x=%.1f y=%.1f\n",
 				min, terrain.getXcoord(searches[finder].getPos_row()),
 				terrain.getYcoord(searches[finder].getPos_col()) );
-		if(DataCollector.DensityBenchMark){
+		if(DataCollector.DensityBenchMark)
+		{
 			System.out.println("Recording search density benchmark data....");
-			DataCollector.DENSITY.printf("%.3f\n",(double) serialTime/parallelTime);
+			DataCollector.DENSITY.printf("%s\n",decimalFormat.format((double) serialTime/parallelTime));
 		}
-		if(DataCollector.gridBenchMark){
+		if(DataCollector.gridBenchMark)
+		{
 
 			System.out.println("Recording grid size benchmark data....");
-			DataCollector.GRID_SIZE.printf("%.3f\n",(double) serialTime/parallelTime);
+			DataCollector.GRID_SIZE.printf("%s\n",decimalFormat.format((double) serialTime/parallelTime));
 		}
-		if(DataCollector.CutoffBenchMark){
+		if(DataCollector.CutoffBenchMark)
+		{
 			System.out.println("Recording Cut-off benchmark data....");
-			DataCollector.CUT_OFFS.printf("%.3f\n",(double) serialTime/parallelTime);
+			DataCollector.CUT_OFFS.printf("%s\n",decimalFormat.format((double) serialTime/parallelTime));
 		}
     }
 	/**

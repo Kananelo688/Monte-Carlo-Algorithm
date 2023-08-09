@@ -26,20 +26,20 @@ public final class DataCollector {
      * Specify values for sequential cut-offs to benchmark algorithms against sequential cut-offs. Parallel algorithms are highly
      * depended on the sequential cut-off
      * */
-    private static final int [] cut_offs={1,10,100,1000,1500,1000,2000,3000,5000,6000,7000,8000};
+    private static final int [] cut_offs={1,10,100,1000,1_500,1_000,2_000,3_000,5_000,6_000,7_000,8_000,10_000,20_000};
     /**
      * Specify default sequential cut-off
      * */
-    private static final double DEFAULT_CUT_OFF=100;
+    private static final double DEFAULT_CUT_OFF=1000;
      /**
       * Specify default rows and columns (to make grid size of at most 800 000, to gather for density of 6,
       * which will give large number of searches (avoid heap overflow)
       * */
-     private static final int DEFAULT_ROWS=4000,DEFAULT_COLS=200;
+     private static final int DEFAULT_ROWS=3_500,DEFAULT_COLS=400;
      /**
       * Default search density
       * */
-     private static final double DEFAULT_DENSITY=0.1;
+     private static final double DEFAULT_DENSITY=6;//give 8.4Million searches
         /**
          * PrintWriter object that writes to the file containing results of benchmarking for search densities.
          * */
@@ -93,10 +93,10 @@ public final class DataCollector {
              if(GRID_SIZE==null){
                  GRID_SIZE=new PrintWriter(new FileOutputStream(filename));
              }
-             int rows=grows[rand.nextInt(grows.length)], cols=grows[rand.nextInt(grows.length)];
+             int rows=grows[i], cols=grows[i];
              String[] argum={String.valueOf(rows),String.valueOf(cols),
-                     "-2000","2000","-100","100",
-                     String.valueOf(DEFAULT_DENSITY),"0","1"};
+                     "-2000","2000","-1000","1000",
+                     String.valueOf(0.1),"0","1"};
              GRID_SIZE.print(rows*cols+" ");
              MonteCarloMinimization.main(argum);
          }
@@ -108,10 +108,9 @@ public final class DataCollector {
              if(CUT_OFFS==null){
                  CUT_OFFS=new PrintWriter(new FileOutputStream(filename));
              }
-             int rows=grows[rand.nextInt(grows.length)], cols=grows[rand.nextInt(grows.length)];
              String[] argum={String.valueOf(DEFAULT_ROWS),String.valueOf(DEFAULT_COLS),
-                     "-2000","2000","-100","100",
-                     String.valueOf(10),"0","1"};
+                     "0","3500","-200","200",
+                     String.valueOf(DEFAULT_DENSITY),"0","1"};
              CUT_OFFS.print(cut_offs[i]+" ");
              MonteCarloMinimizationParallel.SEQUENTIAL_CUTOFF=cut_offs[i];
              MonteCarloMinimization.main(argum);
