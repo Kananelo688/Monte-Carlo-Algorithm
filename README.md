@@ -14,9 +14,10 @@ The serial Algoritm uses and array of searches (Search object) to search the arr
 <br>
 The parallel implementation of this algorithm is pretty much the same except that multiple search object are allowed in the grid. This has potential of race condition where two searches might get to the grid point and change that point at the same time. However, this race condition is ingored in this project because programming to prevent that will make algorithm much slower,and violates initial objective of the experiment. The way that paralellel algorithm works is that, initially it takes the array of searches, and breaks it recursively into two halves, giving each half to another ForkJoin thread until the array size is within determined sequential cut-off, of which if is the case, search obejcts in that portion of the search array are allowed into the grid sequentially.<br>
 The algorithms were benchmarked against, grid-size(rows*cols), search_density, and sequential-cut-off., on two different machines(quard-processor and  octa-processor),and the graphs of speed-up are shown below.
-![Sequential-cut](https://github.com/Kananelo688/Monte-Carlo-Algorithm/assets/137335001/1a572605-bafa-4b94-8e65-c20ab9904973)
-![Grid_Size](https://github.com/Kananelo688/Monte-Carlo-Algorithm/assets/137335001/bf8262a2-f9fa-47f4-87e8-58780d1316ba)
-![Speed-up-vs-search-densities](https://github.com/Kananelo688/Monte-Carlo-Algorithm/assets/137335001/4e70ec8b-74fa-4925-a8de-0ee5c3b6faf2)
+![Screenshot from 2023-08-09 14-57-51](https://github.com/Kananelo688/Monte-Carlo-Algorithm/assets/137335001/71c38c73-2e88-42de-8281-c42fceb61b90)
+![Screenshot from 2023-08-09 14-57-55](https://github.com/Kananelo688/Monte-Carlo-Algorithm/assets/137335001/62756d57-32fe-4854-9959-7460ca15e846)
+![Screenshot from 2023-08-10 09-02-30](https://github.com/Kananelo688/Monte-Carlo-Algorithm/assets/137335001/796bc9cb-b8b8-40c8-a654-73cf4980d5ed)
+
 
 # Software Required
 1. Java Virtual Machine (JVM)
